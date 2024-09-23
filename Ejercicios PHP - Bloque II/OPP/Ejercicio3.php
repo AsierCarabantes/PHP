@@ -58,7 +58,6 @@
                 $Usuario = new Usuario($nombre, $correo, $contraseña, $repetirContraseña);
                 $Usuario->validatePassword();
             }
-
     ?>
 </body>
 </html>
