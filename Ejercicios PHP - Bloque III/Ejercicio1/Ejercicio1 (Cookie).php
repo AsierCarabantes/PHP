@@ -11,6 +11,7 @@
 
     if (isset($_POST["reiniciar"])) {
         $visitas = 0;
+        setcookie($cookie_nombre, $cookie_valor, time() - 3600 , "/");
         header("Location: " . $_SERVER['PHP_SELF']);
     }
 
@@ -27,7 +28,7 @@
 <body>
     <?php
         if(isset($_COOKIE[$cookie_nombre])) {
-            echo "<p><b>Bienvenido </b>" . $cookie_valor . "</p>";
+            echo "<p><b>Bienvenido de nuevo </b>" . $cookie_valor . "</p>";
             echo "Cantidad de visitas: " . $visitas; 
         } else {
             echo "<p><b>Bienvenido por primera vez </b>" . $cookie_valor . "</p>";
