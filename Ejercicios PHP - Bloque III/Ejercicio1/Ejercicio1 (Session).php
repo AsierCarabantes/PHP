@@ -4,8 +4,7 @@
     if (isset($_POST["reiniciar"])) {
         session_unset();                    //Siempre al principio
         session_destroy();
-        header("Location: " . $_SERVER['PHP_SELF']); //Redirigir al usuario a la misma página
-    }
+        header("Location: " . $_SERVER['PHP_SELF']); //Redirigir al usuario a página x
 ?>
 
 <!DOCTYPE html>
