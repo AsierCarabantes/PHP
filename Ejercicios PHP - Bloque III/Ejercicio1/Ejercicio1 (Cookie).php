@@ -12,7 +12,7 @@
     if (isset($_POST["reiniciar"])) {
         $visitas = 0;
         setcookie($cookie_nombre, $cookie_valor, time() - 3600 , "/");
-        header("Location: " . $_SERVER['PHP_SELF']);
+        header("Location: " . $_SERVER['PHP_SELF']); //Redirigir al usuario a la misma página
     }
 
     setcookie("visitas_" . $cookie_nombre, $visitas, time() + (86400 * 365), "/");
@@ -23,7 +23,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ejercicio 1</title>
+    <title>Ejercicio 1 (Cookie)</title>
 </head>
 <body>
     <?php
