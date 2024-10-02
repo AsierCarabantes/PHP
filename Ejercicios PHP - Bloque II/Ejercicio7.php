@@ -8,6 +8,16 @@
     </head>
     <body>
         <?php
+            $servername = "db";
+            $username = "root";
+            $password = "root";
+            $dbname = "mydatabase";
+
+            $conn = new mysqli($servername, $username, $password, $dbname);
+            if ($conn->connect_error) {
+                die("Connection failed: " . $conn->connect_error);
+            }
+
             $nombre = $correo = $password = $confirmPassword = "";
             $nombreErr = $correoErr = $passwordErr = $confirmPasswordErr = "";
 
@@ -55,6 +65,28 @@
                 $data = htmlspecialchars($data);
                 return $data;
             }
+
+            /*
+            $sql = "CREATE TABLE Usuarios (
+                id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+                nombre VARCHAR(30) NOT NULL,
+                correo VARCHAR(50) NOT NULL,
+                password VARCHAR(50)
+                )";
+
+            $conn->query($sql);
+            */
+
+            $sql = "INSERT INTO Usuarios (nombre, correo, password) 
+                    VALUES ('$nombre', '$correo', '$password')";  
+                    
+                    
+                    if ($conn->query($sql) === TRUE) {
+                        echo "New record created successfully";
+                      } else {
+                        echo "Error: " . $sql . "<br>" . $conn->error;
+                      }
+                           
         ?>    
 
             <h1>Formulario de registro</h1><br>
