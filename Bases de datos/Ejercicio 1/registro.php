@@ -3,8 +3,6 @@
     <title>Registro</title>
 </head>
 <body>
-    <h1>Registro realizado correctamente!!</h1>
-
     <?php 
         $servername = "db";
         $username = "root";
@@ -26,9 +24,20 @@
             }
         }
 
-        $sql = "INSERT INTO Usuarios (nombre, correo, password)
-                VALUES ('$nombreUsuario', '$correo', '$password')";
-                       
+        $existe = "SELECT correo FROM Usuarios WHERE correo = '$correo'";
+        $result = $conn->query($existe);
+
+        if ($result->num_rows > 0) {
+            echo "Ya existe un usuario con ese correo";
+        } else {
+            $sql = "INSERT INTO Usuarios (nombre, correo, password) VALUES ('$nombreUsuario', '$correo', '$password')";
+            if ($conn->query($sql) === TRUE) {
+                echo "<h1>Registro realizado correctamente!!</h1>";
+              } else {
+                echo "Error: " . $sql . "<br>" . $conn->error;
+            }
+        }
+
     ?>
 </body>
 </html>
