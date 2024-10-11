@@ -1,3 +1,6 @@
+<?php 
+    session_start();
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -19,12 +22,12 @@
         Año: <input type="number" name="ano"><br>
         <label for="puntuacion">Puntuación:</label>
         <select name="puntuacion" id="puntuacion">
-            <option value="cero">0</option>;
-            <option value="uno">1</option>;
-            <option value="dos">2</option>;
-            <option value="tres">3</option>;
-            <option value="cuatro">4</option>;
-            <option value="cinco">5</option>;
+            <option value="0">0</option>;
+            <option value="1">1</option>;
+            <option value="2">2</option>;
+            <option value="3">3</option>;
+            <option value="4">4</option>;
+            <option value="5">5</option>;
         </select><br><br>
         <input type="submit" name="registrarPelicula" value="Añadir película">
         <h1>Lista de películas</h1>
@@ -44,8 +47,8 @@
 
         /*
         $tabla = "CREATE TABLE Peliculas (
-                  titulo VARCHAR(50) NOT NULL,
-                  ISAN VARCHAR(24) PRIMARY KEY,
+                  titulo VARCHAR(50) NOT NULL PRIMARY KEY,
+                  ISAN VARCHAR(24),
                   ano YEAR,
                   puntuacion INT CHECK (Puntuacion BETWEEN 0 AND 5),
                   correo VARCHAR(50),
@@ -65,6 +68,7 @@
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             if (isset($_POST["login"])) {
                 $correo = $_POST["email"];
+                $_SESSION["correo"] = $correo;
             }
 
             if (isset($_POST["registrarPelicula"])) {
@@ -73,6 +77,7 @@
                 $ano = $_POST["ano"];
                 $puntuacion = $_POST["puntuacion"];
             }
+            $correo = $_SESSION["correo"];
         }
 
         //Comprobar los campos del formulario
@@ -88,13 +93,30 @@
 
                     $conn->query($sqlInsert);
                 }
+            } else {
+                $error = "Los campos son obligatorios";
             }
 
             if ($resultSelect1->num_rows > 0) {
                 if ((!empty($titulo)) && (!empty($ano)) && (!empty($puntuacion))) {
-                    $sqlUpdate = "UPDATE Peliculas SET nombre = '$nombre' AND ";
+                    $sqlUpdate = "UPDATE Peliculas SET titulo = '$titulo', ano = '$ano', puntuacion = '$puntuacion' WHERE ISAN = '$isan'";
+                    
+                    $conn->query($sqlUpdate);
+                } else {
+                    $error = "Los campos son obligatorios";
                 }
             }
+
+            if ($resultSelect1->num_rows > 0) {
+                if (empty($titulo)) {
+                    $sqlDelete = "DELETE FROM Peliculas WHERE ISAN = '$isan'";
+
+                    $conn->query($sqlDelete);
+                }
+            }
+
+            
+            
         }
         
         
