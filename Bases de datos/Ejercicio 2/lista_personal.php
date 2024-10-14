@@ -84,15 +84,15 @@
         $error = "";
 
         if ($_SERVER["REQUEST_METHOD"] == "POST") {            
-            $sqlSelect1 = "SELECT ISAN FROM Peliculas WHERE correo = '$correo'";
+            $sqlSelect1 = "SELECT ISAN FROM Peliculas WHERE correo = '$correo' AND ISAN = '$isan'";
             $resultSelect1 = $conn->query($sqlSelect1);
             if ($resultSelect1->num_rows == 0 && strlen($isan) == 8) {
                 if ((!empty($titulo)) && (!empty($ano)) && (!empty($puntuacion))) {
                     $sqlInsert = "INSERT INTO Peliculas (titulo, ISAN, ano, puntuacion, correo) 
                       VALUES ('$titulo', '$isan', '$ano', '$puntuacion', '$correo')";
-
                     $conn->query($sqlInsert);
-                }
+                    /*$titulo = $isan = $ano = $puntuacion = "";*/
+                } 
             } else {
                 $error = "Los campos son obligatorios";
             }
@@ -113,35 +113,24 @@
 
                     $conn->query($sqlDelete);
                 }
-            }
-
-            
-            
+            }  
         }
-        
-        
-        /*
-        $sqlInsert = "INSERT INTO Peliculas (titulo, ISAN, ano, puntuacion, correo) 
-                      VALUES ('$titulo', '$isan', '$ano', '$puntuacion', '$correo')";
 
-                $conn->query($sqlInsert);
+        //Insertar en la tabla
+        $sqlSelect2 = "SELECT titulo, ISAN, ano, puntuacion FROM Peliculas WHERE correo = '$correo'";
+        $result = $conn->query($sqlSelect2);
 
-                $sqlSelect3 = "SELECT titulo, ISAN, ano, puntuacion FROM Peliculas WHERE correo = '$correo'";
-                $result = $conn->query($sqlSelect);
-
-                if ($result->num_rows > 0) {
-                    while ($row = $result->fetch_assoc()) {
-                        echo "<tr>";
-                            echo "<td>" . $row["titulo"] . "</td>";
-                            echo "<td>" . $row["ISAN"] . "</td>";
-                            echo "<td>" . $row["ano"] . "</td>";
-                            echo "<td>" . $row["puntuacion"] . "</td>";
-                        echo "</tr>";
-                    }
-                } else {
-                    echo "<tr><td>-</td><td>-</td><td>-</td><td>-</td></tr>";
-                }
-        */
+        if ($result->num_rows > 0) {
+            while ($row = $result->fetch_assoc()) {
+                echo "<tr>";
+                    echo "<td>" . $row["titulo"] . "</td>";
+                    echo "<td>" . $row["ISAN"] . "</td>";
+                    echo "<td>" . $row["ano"] . "</td>";
+                    echo "<td>" . $row["puntuacion"] . "</td>";
+                echo "</tr>";
+            }
+        } 
+    
         echo "</table>";
     ?>
 </body>
