@@ -1,4 +1,6 @@
 <?php 
+    session_start();
+
     $servername = "db";
     $username = "root";
     $password = "root";
@@ -19,18 +21,19 @@
     $sql = "INSERT INTO Usuarios (nombre, correo, password) 
             VALUES ('$nUsuario', '$email', '$pass')";
     
-    $existe = "SELECT correo FROM Usuarios WHERE correo = '$correo'";
+    $existe = "SELECT correo FROM Usuarios WHERE correo = '$email'";
     $result = $conn->query($existe);
 
     if ($result->num_rows > 0) {
-        echo "Ya existe un usuario con ese correo";
+        $_SESSION["error"] = "*El usuario introducido ya existe.";
+        header("Location: formulario.php");
     } else {
-        $sql = "INSERT INTO Usuarios (nombre, correo, password) VALUES ('$nombreUsuario', '$correo', '$password')";
+        $sql = "INSERT INTO Usuarios (nombre, correo, password) VALUES ('$nUsuario', '$email', '$pass')";
         if ($conn->query($sql) === TRUE) {
-            echo "<h1>Registro realizado correctamente!!</h1>";
+            header("Location: formulario.php");
+            $_SESSION["registroCorrecto"] = "Registro realizado correctamente!!";
         } else {
             echo "Error: " . $sql . "<br>" . $conn->error;
         }
     }
-
 ?>
