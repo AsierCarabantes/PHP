@@ -1,10 +1,12 @@
-<?php 
+<?php
+    session_start();
+
     $servername = "db";
     $username = "root";
     $password = "root";
     $dbname = "mydatabase";
 
-    $conn = new mysqli($servername, $username, $password, $dbname);
+    $conn = new mysqli($servername, $username, $password, $dbname); //Realizar la conexión
 
     $correo = $pass = "";
 
@@ -13,16 +15,19 @@
             $correo = $_POST["email"];
             $pass = $_POST["pass"];
         }
-    }
+    
+        $sql = "SELECT correo, password FROM Usuarios WHERE correo = '$correo' AND password = '$pass'"; //Comprobar inicio sesión
 
-    $sql = "SELECT correo, password FROM Usuarios WHERE correo = '$correo' AND password = '$pass'";
+        $result = $conn->query($sql);
 
-    $result = $conn->query($sql);
-
-    if ($result->num_rows == 0) {
-        echo "Usuario o contraseña incorrectos";
-    } else {
-        header("Location: lista_personal.php");
-        //Pregunta sobre redirigir el header
+        if ($result->num_rows == 0) {
+            $_SESSION["errorLogin"] = "*Correo o contraseña incorrectos";
+            header("Location: formulario.php");
+            exit;
+        } else {
+            $_SESSION["correo"] = $correo;
+            header("Location: lista_personal.php");
+            exit;
+        }
     }
 ?>
