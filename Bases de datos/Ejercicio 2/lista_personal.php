@@ -95,11 +95,20 @@
         echo "<table border='1'>";
         echo "<tr><th>Título</th><th>ISAN</th><th>Año</th><th>Puntuacion</th></tr>";
 
+<<<<<<< HEAD
         // Recopilar información
         $titulo = $isan = $ano = $puntuacion = "";
         $correo = $_SESSION["correo"];
 
         if ($_SERVER["REQUEST_METHOD"] == "POST") {    // Recoger datos para insertar película
+=======
+
+        //Recopilar información
+        $titulo = $isan = $ano = $puntuacion = "";
+        $correo = $_SESSION["correo"];
+
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {    //Recoger datos para isertar pelicula
+>>>>>>> fbb094f286294cab8736161f3e045faff550f368
             if (isset($_POST["registrarPelicula"])) {
                 $titulo = $_POST["titulo"];
                 $isan = $_POST["isan"];
@@ -111,7 +120,11 @@
         // Comprobar los campos del formulario
         $error = "";
         if ($_SERVER["REQUEST_METHOD"] == "POST") {    
+<<<<<<< HEAD
             // INSERT        
+=======
+            //INSERT        
+>>>>>>> fbb094f286294cab8736161f3e045faff550f368
             $sqlSelect1 = "SELECT ISAN FROM Peliculas WHERE correo = '$correo' AND ISAN = '$isan'";
             $resultSelect1 = $conn->query($sqlSelect1);
             if ($resultSelect1->num_rows == 0 && strlen($isan) == 8) {
@@ -127,7 +140,11 @@
             }
 
             if ($resultSelect1->num_rows > 0) {
+<<<<<<< HEAD
                 // UPDATE
+=======
+                //UPDATE
+>>>>>>> fbb094f286294cab8736161f3e045faff550f368
                 if ((!empty($titulo)) && (!empty($ano)) && (!empty($puntuacion))) {
                     $sqlUpdate = "UPDATE Peliculas SET titulo = '$titulo', ano = '$ano', puntuacion = '$puntuacion' WHERE ISAN = '$isan'";
                     $conn->query($sqlUpdate);
@@ -137,7 +154,11 @@
             }
 
             if ($resultSelect1->num_rows > 0) {
+<<<<<<< HEAD
                 // DELETE
+=======
+                //DELETE
+>>>>>>> fbb094f286294cab8736161f3e045faff550f368
                 if (empty($titulo)) {
                     $sqlDelete = "DELETE FROM Peliculas WHERE ISAN = '$isan'";
                     $conn->query($sqlDelete);
@@ -150,7 +171,11 @@
         $result = $conn->query($sqlSelect2);
 
         if ($result->num_rows > 0) {
+<<<<<<< HEAD
             while ($row = $result->fetch_assoc()) { // Recoger los datos que devuelve la consulta para insertarlos en la tabla
+=======
+            while ($row = $result->fetch_assoc()) { //Recoger los datos que devuelve la consulta para insertarlos en la tabla
+>>>>>>> fbb094f286294cab8736161f3e045faff550f368
                 echo "<tr>";
                     echo "<td>" . $row["titulo"] . "</td>";
                     echo "<td>" . $row["ISAN"] . "</td>";
